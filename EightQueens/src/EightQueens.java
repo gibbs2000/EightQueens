@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -8,7 +9,7 @@ public class EightQueens {
 	JFrame window;
 	JPanel header, footer, grid;
 	ChessSquarePanel[][] squares;
-
+	ArrayList<Queen> queens;
 	// These are constant fields for numerical values
 	final int HEIGHT = 400, WIDTH = 400, ROWS = 8, COLUMNS = 8;
 
