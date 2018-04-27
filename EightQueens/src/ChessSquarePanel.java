@@ -22,18 +22,19 @@ public class ChessSquarePanel extends JPanel {
 		isQueen = q;
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
-		g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
 		this.setBackground(backColor);
-		g.setColor(Color.RED);
 
 		// removeAll(); // Someone mentioned panels not updating properly, this
 		// may help, but does not seem necessary
 		// x and y center the String, adjust as necessary
 
 		if (isQueen) {
+			g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
+			g.setColor(Color.RED);
 			int x = (this.getWidth() / 2) - FONTSIZE / 4; // - letter.length()/2;
 			int y = (this.getHeight() / 2) + FONTSIZE / 4;
 			g.drawString("q", x, y);
