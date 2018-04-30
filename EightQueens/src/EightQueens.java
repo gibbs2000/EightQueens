@@ -26,12 +26,15 @@ public class EightQueens {
 	ArrayList<Queen> queens;
 
 	// These are constant fields for numerical values and colors
-	final int HEIGHT = 1000, WIDTH = 1000, ROWS = 8, COLUMNS = 8;
+	final int HEIGHT = 1000, WIDTH = 1000, ROWS = 8, COLUMNS = 8, GRID_SIZE = 800;
 	private static final Color DEFAULT_BACKGROUND = Color.CYAN;
 	private static final Font title = new Font("Comic Sans MS", Font.BOLD, 26);
 	private static final Font labelText = new Font("Comic Sans MS", Font.PLAIN, 18);
+	private static final String whiteTexture = "wht.jpg";
+	private static final String blackTexture = "blk.jpeg";
 
 	public EightQueens() {
+
 		createFrame();
 
 		createHeader();
@@ -65,18 +68,20 @@ public class EightQueens {
 		squares = new ChessSquarePanel[ROWS][COLUMNS];
 
 		grid = new JPanel();
-		grid.setMinimumSize(new Dimension(WIDTH, 800));
-		grid.setMaximumSize(new Dimension(WIDTH, 800));
-		grid.setPreferredSize(new Dimension(WIDTH, 800));
+		grid.setMinimumSize(new Dimension(WIDTH, GRID_SIZE));
+		grid.setMaximumSize(new Dimension(WIDTH, GRID_SIZE));
+		grid.setPreferredSize(new Dimension(WIDTH, GRID_SIZE));
 		grid.setLayout(new GridLayout(ROWS, COLUMNS));
 		int x = 0;
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLUMNS; j++) {
-				if (x++ % 2 == 0)
-					squares[i][j] = new ChessSquarePanel(Color.GRAY, false);
-
-				else
+				if (x++ % 2 == 0) {
+					//squares[i][j] = new ChessSquarePanel(blackTexture, false);
+					squares[i][j] = new ChessSquarePanel(Color.DARK_GRAY, false);
+				} else {
+					//squares[i][j] = new ChessSquarePanel(whiteTexture, false);
 					squares[i][j] = new ChessSquarePanel(Color.WHITE, false);
+				}
 				grid.add(squares[i][j]);
 			}
 			x++;
@@ -131,6 +136,19 @@ public class EightQueens {
 			}
 		});
 		return recursion;
+	}
+
+	public boolean addQueens(ArrayList<Queen> alreadyPlaced) {
+		if (alreadyPlaced.isEmpty()) {
+
+		}
+		if (alreadyPlaced.size() > 8) {
+			return true;// base case
+		} else {
+
+			return false;
+
+		}
 	}
 
 	public JButton resetButton() {
