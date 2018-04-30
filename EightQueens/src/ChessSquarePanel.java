@@ -16,6 +16,7 @@ public class ChessSquarePanel extends JPanel {
 	private boolean isQueen;
 	private Color backColor;
 	private static final int FONTSIZE = 30;
+	private static final Font title = new Font("Comic Sans MS", Font.BOLD, FONTSIZE);
 
 	ChessSquarePanel() {
 		backColor = Color.BLUE;
@@ -38,7 +39,7 @@ public class ChessSquarePanel extends JPanel {
 		// x and y center the String, adjust as necessary
 
 		if (isQueen) {
-			g.setFont(new Font("TimesRoman", Font.PLAIN, FONTSIZE));
+			g.setFont(title);
 			g.setColor(Color.RED);
 			int x = (this.getWidth() / 2) - FONTSIZE / 4; // - letter.length()/2;
 			int y = (this.getHeight() / 2) + FONTSIZE / 4;
