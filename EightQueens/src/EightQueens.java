@@ -76,11 +76,11 @@ public class EightQueens {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLUMNS; j++) {
 				if (x++ % 2 == 0) {
-					//squares[i][j] = new ChessSquarePanel(blackTexture, false);
-					squares[i][j] = new ChessSquarePanel(Color.DARK_GRAY, false);
+					squares[i][j] = new ChessSquarePanel(blackTexture, false);
+					// squares[i][j] = new ChessSquarePanel(Color.DARK_GRAY, false);
 				} else {
-					//squares[i][j] = new ChessSquarePanel(whiteTexture, false);
-					squares[i][j] = new ChessSquarePanel(Color.WHITE, false);
+					squares[i][j] = new ChessSquarePanel(whiteTexture, false);
+					// squares[i][j] = new ChessSquarePanel(Color.WHITE, false);
 				}
 				grid.add(squares[i][j]);
 			}
