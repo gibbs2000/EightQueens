@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Stack;
 
 import javax.swing.BoxLayout;
@@ -32,9 +31,11 @@ public class EightQueens {
 	private static final Color DEFAULT_BACKGROUND = Color.CYAN;
 	private static final Font title = new Font("Comic Sans MS", Font.BOLD, 26);
 	private static final Font labelText = new Font("Comic Sans MS", Font.PLAIN, 18);
-	private static final String COPYRIGHT = "This program is the legal property of Sean Gibbons, with graphics assistance by Mrs Kelly",
+	private static final String COPYRIGHT = "This program is the legal and intellectual property of Sean Gibbons, with graphics assistance by Mrs Kelly",
 			TITLE = "Eight Queens", EXAMPLE = "Click to show an example", RESET = "Click to reset",
 			RECURSE = "Click to run the recursive method";
+	private static int rowC = 0;
+	private static int colC = 0;
 
 	public EightQueens() {
 		queens = new Stack<Queen>();
@@ -134,6 +135,7 @@ public class EightQueens {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (!isRunning) {
+					isRunning = true;
 					addQueens(queens);
 					updateQueens();
 				}
@@ -146,7 +148,7 @@ public class EightQueens {
 	private void updateQueens() {
 		for (Queen q : queens) {
 			squares[q.getColumn()][q.getRow()].setQueen(true);
-			;
+
 		}
 	}
 
@@ -177,33 +179,50 @@ public class EightQueens {
 		for (int i = 0; i < ROWS; i++) {
 			for (int j = 0; j < COLUMNS; j++) {
 				squares[i][j].setQueen(false);
+
 			}
 		}
+		queens = new Stack<Queen>();
 	}
 
 	public boolean addQueens(Stack<Queen> alreadyPlaced) {
-		isRunning = true;
 		if (alreadyPlaced.isEmpty()) {
-			queens.add(new Queen(0, 0));
+			queens.add(new Queen(rowC, colC));
 		}
 		if (alreadyPlaced.size() > 8) {
 			isRunning = false;
-			return true;// base case
+			return true;
 		} else {
-			for (int i = alreadyPlaced.peek().getRow(); i < ROWS; i++) {
-				for (int j = alreadyPlaced.peek().getColumn(); j < ROWS; j++) {
-					Queen q = new Queen(i, j);
-					if (isLegal(q, alreadyPlaced)) {
-						alreadyPlaced.add(q);
-					}
-				}
+			Queen q = new Queen(rowC, colC);
+			if (isLegal(q, queens)) {
+				queens.push(q);
+			}
+			if (!addQueens(alreadyPlaced)) {
+				queens.pop();
+				rowC++;
+			}
+			if (rowC > ROWS) {
+				rowC = 0;
+			}
+			if (colC > COLUMNS) {
+				colC = 0;
 			}
 		}
-		return isRunning;
+		return false;
+
 	}
 
 	public boolean isLegal(Queen q, Stack<Queen> alreadyPlaced) {
 
+		for (Queen placed : alreadyPlaced) {
+			if (q.getRow() == placed.getRow())
+				return false;
+			if (q.getColumn() == placed.getColumn())
+				return false;
+			if ((q.getColumn() - q.getRow()) == (placed.getColumn() - placed.getRow())) {
+				return false;
+			}
+		}
 		return true;
 	}
 
