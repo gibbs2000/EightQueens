@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 /**
+ * A class representing an individual panel on a ChessBoard. The two main fields
+ * are the background color and whether or not it has a queen on it
  * 
  * @author Sean Gibbons
  *
@@ -18,11 +20,25 @@ public class ChessSquarePanel extends JPanel {
 	private static final int FONTSIZE = 30;
 	private static final Font title = new Font("Comic Sans MS", Font.BOLD, FONTSIZE);
 
+	/**
+	 * The default no args constructor that sets the background color and isQueen
+	 * methods to basic values
+	 */
 	ChessSquarePanel() {
 		backColor = Color.BLUE;
 		isQueen = false;
 	}
 
+	/**
+	 * A constructor that sets the fields of the ChessSquarePanel to given
+	 * parameters
+	 * 
+	 * @param c
+	 *            the new backgroundColor
+	 * @param q
+	 *            the boolean on whether or not this ChessSquarePanel contains a
+	 *            Queen
+	 */
 	ChessSquarePanel(Color c, boolean q) {
 		backColor = c;
 		isQueen = q;
@@ -47,11 +63,23 @@ public class ChessSquarePanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Sets the background color of the ChessSquarePanel to a given parameter
+	 * 
+	 * @param c
+	 *            the new background color
+	 */
 	public void setBackColor(Color c) {
 		backColor = c;
 		repaint(); // forces paintComponent to execute
 	}
 
+	/**
+	 * Sets the state of the isQueen to a given boolean parameter
+	 * 
+	 * @param q
+	 *            the boolean parameter to which isQueen will be assigned
+	 */
 	public void setQueen(boolean q) {
 		isQueen = q;
 		repaint();
