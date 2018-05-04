@@ -49,7 +49,6 @@ public class EightQueens {
 	 */
 	boolean isRunning;
 
-	// These are constant fields for numerical values and colors
 	/**
 	 * Integer constants that set the dimensions for the window as well as the
 	 * number of rows and columns
