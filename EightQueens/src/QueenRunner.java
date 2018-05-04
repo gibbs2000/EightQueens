@@ -1,5 +1,5 @@
 /**
- * A short class that exists soley to test the EightQueens class
+ * A short class that exists solely to test the EightQueens class
  * 
  * @author Sean Gibbons
  *

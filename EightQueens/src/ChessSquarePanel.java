@@ -14,10 +14,21 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class ChessSquarePanel extends JPanel {
 
-	// These fields are used whenever PaintComponent is executed to update the panel
+	/**
+	 * The boolean field that stores whether or not this panel has a queen
+	 */
 	private boolean isQueen;
+	/**
+	 * The field for the background color of the ChessSquarePanel
+	 */
 	private Color backColor;
+	/**
+	 * A constant int value for the size of the label to be displayed
+	 */
 	private static final int FONTSIZE = 30;
+	/**
+	 * A constant for the font of the label to be displayed
+	 */
 	private static final Font title = new Font("Comic Sans MS", Font.BOLD, FONTSIZE);
 
 	/**
@@ -57,7 +68,8 @@ public class ChessSquarePanel extends JPanel {
 		if (isQueen) {
 			g.setFont(title);
 			g.setColor(Color.RED);
-			int x = (this.getWidth() / 2) - FONTSIZE / 4; // - letter.length()/2;
+			int x = (this.getWidth() / 2) - FONTSIZE / 4;
+			// - letter.length()/2;
 			int y = (this.getHeight() / 2) + FONTSIZE / 4;
 			g.drawString("Q", x, y);
 		}

@@ -15,33 +15,73 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 /**
+ * The main class representing an EightQueens window, with a header and footer
+ * as well as a central grid for the chess squares to appear in. The class can
+ * generate pre-written examples to the Eight Queens problem as well as
+ * recursively find solutions
  * 
  * @author Sean Gibbons
  *
  */
 public class EightQueens {
+	/**
+	 * The main JFrame that all of the elements are displayed in
+	 */
 	JFrame window;
+	/**
+	 * The three main components of the frame: header, footer, and grid. Each has
+	 * different components but all are JPanels so that they work correctly within
+	 * the window.
+	 */
 	JPanel header, footer, grid;
+	/**
+	 * A 2d array of ChessSquarePanels that display either white or black tiles in a
+	 * pattern akin to a chessboard
+	 */
 	ChessSquarePanel[][] squares;
+	/**
+	 * A stack representing currently placed queens on the grid
+	 */
 	Stack<Queen> queens;
+	/**
+	 * A boolean that indicates whether the recursive method is running to prevent
+	 * stack overflow
+	 */
 	boolean isRunning;
 
 	// These are constant fields for numerical values and colors
+	/**
+	 * Integer constants that set the dimensions for the window as well as the
+	 * number of rows and columns
+	 */
 	public static final int HEIGHT = 1000, WIDTH = 1000, ROWS = 8, COLUMNS = 8;
+	/**
+	 * A constant that indicates the default background color for the frame
+	 */
 	private static final Color DEFAULT_BACKGROUND = Color.CYAN;
-	private static final Font title = new Font("Comic Sans MS", Font.BOLD, 26);
-	private static final Font labelText = new Font("Comic Sans MS", Font.PLAIN, 18);
+	/**
+	 * Font constants to properly display the header, footer, and other relevant
+	 * text
+	 */
+	private static final Font title = new Font("Comic Sans MS", Font.BOLD, 26),
+			labelText = new Font("Comic Sans MS", Font.PLAIN, 18);
+	/**
+	 * The String constants used in header, footer, and other relevant text
+	 */
 	private static final String COPYRIGHT = "This program is the legal and intellectual property of Sean Gibbons, with graphics assistance by Mrs Kelly",
 			TITLE = "Eight Queens", EXAMPLE = "Click to show an example", RESET = "Click to reset",
 			RECURSE = "Click to run the recursive method";
-	private static int rowC = 0;
-	private static int colC = 0;
+	/**
+	 * Counter fields to be used in tracking where queens have been placed so far
+	 */
+	private static int rowC = 0, colC = 0;
 
 	/**
 	 * The basic no args constructor to set up an EightQueens window with header,
 	 * footer, and chess grid frames
 	 */
 	public EightQueens() {
+
 		queens = new Stack<Queen>();
 
 		createFrame();
