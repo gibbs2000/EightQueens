@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Stack;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -40,15 +40,21 @@ public class EightQueens {
 	 */
 	ChessSquarePanel[][] squares;
 	/**
-	 * A stack representing currently placed queens on the grid
+	 * An ArrayList representing currently placed queens on the grid
 	 */
-	Stack<Queen> queens;
+	ArrayList<Queen> queens;
 	/**
 	 * A boolean that indicates whether the recursive method is running to prevent
 	 * stack overflow
 	 */
 	boolean isRunning;
 
+	/**
+	 * An ArrayList that represents all possible solutions to the EightQueens
+	 * problem
+	 */
+
+	public static ArrayList<ArrayList<Queen>> solutions = new ArrayList<ArrayList<Queen>>();
 	/**
 	 * Integer constants that set the dimensions for the window as well as the
 	 * number of rows and columns
@@ -73,7 +79,7 @@ public class EightQueens {
 	/**
 	 * Counter fields to be used in tracking where queens have been placed so far
 	 */
-	private static int rowC = 0, colC = 0;
+	private static int startRow = 0, startCol = 0, solNumber = 1;
 
 	/**
 	 * The basic no args constructor to set up an EightQueens window with header,
@@ -81,7 +87,7 @@ public class EightQueens {
 	 */
 	public EightQueens() {
 
-		queens = new Stack<Queen>();
+		queens = new ArrayList<Queen>();
 
 		createFrame();
 		createHeader();
@@ -273,7 +279,7 @@ public class EightQueens {
 
 			}
 		}
-		queens = new Stack<Queen>();
+		queens = new ArrayList<Queen>();
 	}
 
 	/**
@@ -285,45 +291,42 @@ public class EightQueens {
 	 *            ChessSquarePanels
 	 * @return whether this placement is valid
 	 */
-	public boolean addQueens(Stack<Queen> alreadyPlaced) {
-		if (alreadyPlaced.isEmpty()) {
-			queens.add(new Queen(rowC, colC));
-		}
-		if (alreadyPlaced.size() > 8) {
-			isRunning = false;
+	public boolean addQueens(ArrayList<Queen> alreadyPlaced) {
+		if (alreadyPlaced.size() == ROWS) {
 			return true;
-		} else {
-			Queen q = new Queen(rowC, colC);
-			if (isLegal(q, queens)) {
-				queens.push(q);
+		} else if (alreadyPlaced.isEmpty()) {
+			alreadyPlaced.add(new Queen(startRow, startCol));
+			if (solNumber % 2 == 0) {
+				startRow++;
 			}
-			if (!addQueens(alreadyPlaced)) {
-				queens.pop();
-				rowC++;
-			}
-			if (rowC > ROWS) {
-				rowC = 0;
-			}
-			if (colC > COLUMNS) {
-				colC = 0;
+
+			else {
+				startCol++;
 			}
 		}
 		return false;
+	}
+
+	public void generateSolutions() {
+		addQueens(queens);
+		solutions.add(queens);
+		reset();
 
 	}
 
 	/**
-	 * A helper method that checks a given Queen parameter against a Stack of other
-	 * Queens in order to determine if the move will be legal. A move is legal if
-	 * the Queen will not be on the same row, column, or diagonal as another Queen
+	 * A helper method that checks a given Queen parameter against a ArrayList of
+	 * other Queens in order to determine if the move will be legal. A move is legal
+	 * if the Queen will not be on the same row, column, or diagonal as another
+	 * Queen
 	 * 
 	 * @param q
 	 *            the Queen to be placed
 	 * @param alreadyPlaced
-	 *            the Stack of Queens which the new Queen will be compared to
+	 *            the ArrayList of Queens which the new Queen will be compared to
 	 * @return whether the Queen to be placed is in a legal position
 	 */
-	public boolean isLegal(Queen q, Stack<Queen> alreadyPlaced) {
+	public boolean isLegal(Queen q, ArrayList<Queen> alreadyPlaced) {
 
 		for (Queen placed : alreadyPlaced) {
 			if (q.getRow() == placed.getRow())
