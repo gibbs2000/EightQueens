@@ -47,7 +47,7 @@ public class EightQueens {
 	 * A boolean that indicates whether the recursive method is running to prevent
 	 * stack overflow
 	 */
-	boolean isRunning;
+	boolean isRunning = false;
 
 	/**
 	 * An ArrayList that represents all possible solutions to the EightQueens
@@ -73,16 +73,15 @@ public class EightQueens {
 	/**
 	 * The String constants used in header, footer, and other relevant text
 	 */
-	private static final String COPYRIGHT = "This program is the legal and intellectual property of Sean Gibbons, with graphics assistance by Mrs Kelly",
-			TITLE = "Eight Queens", EXAMPLE = "Click to show an example", RESET = "Click to reset",
-			RECURSE = "Click to run the recursive method";
+	private static final String TITLE = "Eight Queens", EXAMPLE = "Click to show an example", RESET = "Click to reset",
+			RECURSE = "Click to run the recursive method", SOLUTION = "Solution Number: ";
 	/**
 	 * Counter fields to be used in tracking where queens have been placed so far
 	 */
-	private static int startRow = 0, startCol = 0, solNumber = 1;
+	private static int startRow = 0, startCol = 0, solNumber = 1, curSolutionNumber = 1;
 
 	/**
-	 * The basic no args constructor to set up an EightQueens window with header,
+	 * The basic no-args constructor to set up an EightQueens window with header,
 	 * footer, and chess grid frames
 	 */
 	public EightQueens() {
@@ -159,7 +158,7 @@ public class EightQueens {
 		footer = new JPanel();
 		footer.setLayout(new BorderLayout(10, 10));
 		footer.setBackground(DEFAULT_BACKGROUND);
-		JLabel label = new JLabel(COPYRIGHT);
+		JLabel label = new JLabel(SOLUTION + curSolutionNumber);
 		label.setFont(labelText);
 		footer.add(label, BorderLayout.BEFORE_FIRST_LINE);
 		JButton showExample = exampleButton();
@@ -214,8 +213,9 @@ public class EightQueens {
 			public void actionPerformed(ActionEvent e) {
 				if (!isRunning) {
 					isRunning = true;
-					addQueens(queens);
-					updateQueens();
+					generateSolutions();
+					displayAllSolutions();
+					isRunning = false;
 				}
 
 			}
@@ -280,6 +280,7 @@ public class EightQueens {
 			}
 		}
 		queens = new ArrayList<Queen>();
+		curSolutionNumber = 0;
 	}
 
 	/**
@@ -287,31 +288,87 @@ public class EightQueens {
 	 * appropriately updates the queens field, a Stack of Queens
 	 * 
 	 * @param alreadyPlaced
-	 *            the Stack of Queens that have already been placed on the grid of
-	 *            ChessSquarePanels
+	 *            the ArrayList of Queens that have already been placed on the grid
+	 *            of ChessSquarePanels
 	 * @return whether this placement is valid
 	 */
 	public boolean addQueens(ArrayList<Queen> alreadyPlaced) {
-		if (alreadyPlaced.size() == ROWS) {
+		if (alreadyPlaced.size() >= ROWS) {
+			// base case - if there are 8 queens on the board
 			return true;
 		} else if (alreadyPlaced.isEmpty()) {
-			alreadyPlaced.add(new Queen(startRow, startCol));
-			if (solNumber % 2 == 0) {
+			// if the array is empty, place a queen in the start position, which changes
+			// based on the solution number, and then call addQueens again
+			Queen q = new Queen(startRow, startCol);
+			alreadyPlaced.add(q);
+			if (solNumber++ % 2 == 0) {
 				startRow++;
-			}
-
-			else {
+			} else {
 				startCol++;
 			}
+			if (!addQueens(alreadyPlaced)) {
+				alreadyPlaced.clear();
+				return addQueens(alreadyPlaced);
+			} else
+				return false;
+
+		} else {
+			int nextRow = alreadyPlaced.get(alreadyPlaced.size() - 1).getRow() + 1;
+			int nextCol = alreadyPlaced.get(alreadyPlaced.size() - 1).getColumn() + 1;
+			Queen q = new Queen(nextRow, nextCol);
+			if (nextRow >= ROWS || nextCol >= COLUMNS) {
+				return false;
+			} else if (isLegal(q, alreadyPlaced)) {
+				alreadyPlaced.add(q);
+				return addQueens(alreadyPlaced);
+
+			} else if (nextRow < ROWS - 1) {
+				nextRow++;
+				q = new Queen(nextRow, nextCol);
+				return addQueens(alreadyPlaced);
+			} else if (nextCol < COLUMNS - 1) {
+				nextCol++;
+				q = new Queen(nextRow, nextCol);
+				return addQueens(alreadyPlaced);
+			} else {
+				return false;
+			}
+
 		}
-		return false;
+
 	}
 
+	/**
+	 * A helper method that runs the addQueens method to generate all possible
+	 * solutions
+	 */
 	public void generateSolutions() {
-		addQueens(queens);
-		solutions.add(queens);
-		reset();
+		while (startRow < ROWS && startCol < COLUMNS) {
+			addQueens(queens);
+			solutions.add(queens);
+			reset();
+		}
 
+	}
+
+	/**
+	 * A helper method that displays all the possible solutions to the EightQueens
+	 * problem with a one-second wait in between
+	 */
+	public void displayAllSolutions() {
+		for (int i = 0; i < solutions.size(); i++) {
+			ArrayList<Queen> solution = solutions.get(i);
+			curSolutionNumber++;
+			for (Queen q : solution) {
+				squares[q.getRow()][q.getColumn()].setQueen(true);
+			}
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
