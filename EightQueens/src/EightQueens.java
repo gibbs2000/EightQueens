@@ -300,40 +300,22 @@ public class EightQueens {
 			// if the array is empty, place a queen in the start position, which changes
 			// based on the solution number, and then call addQueens again
 			Queen q = new Queen(startRow, startCol);
-			alreadyPlaced.add(q);
-			if (solNumber++ % 2 == 0) {
-				startRow++;
-			} else {
-				startCol++;
+			return alreadyPlaced.add(q);
+
+		} else {
+			int curSize = alreadyPlaced.size();
+			for (int i = 0; i < ROWS; i++) {
+				Queen q = new Queen(alreadyPlaced.get(alreadyPlaced.size()).getRow(), i);
+				if (isLegal(q, alreadyPlaced)) {
+					alreadyPlaced.add(q);
+					break;
+				}
+
 			}
-			if (!addQueens(alreadyPlaced)) {
-				alreadyPlaced.clear();
+			if (curSize < alreadyPlaced.size()) {
 				return addQueens(alreadyPlaced);
 			} else
 				return false;
-
-		} else {
-			int nextRow = alreadyPlaced.get(alreadyPlaced.size() - 1).getRow() + 1;
-			int nextCol = alreadyPlaced.get(alreadyPlaced.size() - 1).getColumn() + 1;
-			Queen q = new Queen(nextRow, nextCol);
-			if (nextRow >= ROWS || nextCol >= COLUMNS) {
-				return false;
-			} else if (isLegal(q, alreadyPlaced)) {
-				alreadyPlaced.add(q);
-				return addQueens(alreadyPlaced);
-
-			} else if (nextRow < ROWS - 1) {
-				nextRow++;
-				q = new Queen(nextRow, nextCol);
-				return addQueens(alreadyPlaced);
-			} else if (nextCol < COLUMNS - 1) {
-				nextCol++;
-				q = new Queen(nextRow, nextCol);
-				return addQueens(alreadyPlaced);
-			} else {
-				return false;
-			}
-
 		}
 
 	}
