@@ -308,7 +308,7 @@ public class EightQueens {
 	}
 
 	/**
-	 * A recursive method that finds a solution to the EightQueens problem *
+	 * A recursive method that finds a solution to the EightQueens problem
 	 * 
 	 * @param alreadyPlaced
 	 *            the ArrayList of Queens that have already been placed on the grid
@@ -321,8 +321,12 @@ public class EightQueens {
 		if (alreadyPlaced.size() >= ROWS) {
 			return true;// if the 8th row is reached, then it is a solution (yay)
 
+		} else if (alreadyPlaced.isEmpty()) {
+			alreadyPlaced.add(new Queen(0, startColumn));
+			return addQueens(alreadyPlaced);
 		} else {
-			for (int i = startColumn; i < COLUMNS; i++) {
+			for (int i = 0; i < COLUMNS; i++) {
+				// Tries to add a Queen at the next Row and
 				Queen q = new Queen(alreadyPlaced.size(), i);
 				if (isLegal(q, alreadyPlaced)) {
 					alreadyPlaced.add(q);
