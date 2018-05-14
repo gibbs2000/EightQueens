@@ -322,18 +322,21 @@ public class EightQueens {
 			return true;// if the 8th row is reached, then it is a solution (yay)
 
 		} else if (alreadyPlaced.isEmpty()) {
+			// if this is the first Queen to be placed, change the starting position
 			alreadyPlaced.add(new Queen(0, startColumn));
 			return addQueens(alreadyPlaced);
 		} else {
 			for (int i = 0; i < COLUMNS; i++) {
-				// Tries to add a Queen at the next Row and
+				// Tries to add a Queen at the next Row and column
 				Queen q = new Queen(alreadyPlaced.size(), i);
 				if (isLegal(q, alreadyPlaced)) {
 					alreadyPlaced.add(q);
 					return addQueens(alreadyPlaced);
-
 				}
-			} // if not a solution
+			}
+			// if there was not a solution in this row, remove the most recent one and try
+			// again
+			alreadyPlaced.remove(alreadyPlaced.size() - 1);
 			return false;
 
 		}
