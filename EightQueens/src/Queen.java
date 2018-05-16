@@ -69,4 +69,15 @@ public class Queen {
 		this.column = column;
 	}
 
+	@Override
+	public Queen clone() {
+		return new Queen(row, column);
+
+	}
+
+	@Override
+	public String toString() {
+		return "[" + row + ", " + column + "]";
+	}
+
 }
