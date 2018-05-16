@@ -75,7 +75,8 @@ public class EightQueens {
 	 * The String constants used in header, footer, and other relevant text
 	 */
 	private static final String TITLE = "Eight Queens", EXAMPLE = "Click to show an example", RESET = "Click to reset",
-			RECURSE = "Click to show a recursive solution", SOLUTION = "Solution Number: ";
+			RECURSE = "Click to show a recursive solution",
+			WARNING = "Be sure to click reset before switching between example and recursive functions";
 	/**
 	 * Counter fields to be used in tracking where queens have been placed so far
 	 */
@@ -163,7 +164,7 @@ public class EightQueens {
 		footer = new JPanel();
 		footer.setLayout(new BorderLayout(10, 10));
 		footer.setBackground(DEFAULT_BACKGROUND);
-		JLabel label = new JLabel("");
+		JLabel label = new JLabel(WARNING);
 		label.setFont(labelText);
 		footer.add(label, BorderLayout.BEFORE_FIRST_LINE);
 		JButton showExample = exampleButton();
