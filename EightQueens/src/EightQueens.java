@@ -365,15 +365,4 @@ public class EightQueens {
 
 	}
 
-	public void printSolutions() {
-		// int i = 0;
-		for (int j = 0; j < 10; j++) {
-			System.out.println("Solution Number " + j + solutions.get(j));
-		}
-		// for (ArrayList<Queen> q : solutions) {
-		// System.out.println("Solution Number " + i + q);
-		// i++;
-		// }
-	}
-
 }
